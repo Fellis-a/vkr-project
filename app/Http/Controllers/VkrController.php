@@ -42,7 +42,7 @@ class VkrController extends Controller
       }
 
       $data['vkrs']=$post_query;
-      return view('welcome',$data);
+      return view('welcome',$data);}
 
      /*$vkrs = vkrs::where(
          [
@@ -60,10 +60,10 @@ class VkrController extends Controller
             $vkrs->where('title', 'Like', '%' . request('term') . '%');
         }
 
-        return $vkrs->orderBy('id', 'DESC')->paginate(10);*/
+        return $vkrs->orderBy('id', 'DESC')->paginate(10);
     }
 
-    /*function action(Request $request)
+    function action(Request $request)
     {
         $data = $request->all();
 
@@ -74,7 +74,8 @@ class VkrController extends Controller
                         ->get();
 
         return response()->json($filter_data);
-    }
+    }*/
+
 
     public function find(Request $request){
             $request->validate([

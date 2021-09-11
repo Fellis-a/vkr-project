@@ -23,14 +23,29 @@ class AddVkrRequest extends FormRequest
      */
     public function rules()
     {
-        /*return [
+        return [
             'title' => 'required|max:120',
-            'essay' => 'required|max:500'
-        ];*/
+            'essay' => 'required|max:500',
+            'specialty' => 'required',
+            'year' => 'required',
+            'mark' => 'required',
+            'tech' => 'required|max:50',
+
+
+        ];
     }
     public function messages(){
-        /*'title.required' => 'Поле является обязательным',
-        'essay.max:500' => 'Текст слишком большой'*/
+      return [
+        'title.required' => 'Заполните поле "Тема ВКР"',
+        'title.max:120' => 'Превышено количество символов в поле "Тема ВКР"',
+        'specialty.required' => 'Заполните поле "Специальность"',
+        'year.required' => 'Заполните поле "Год защиты"',
+        'mark.required' => 'Заполните поле "Оценка"',
+        'tech.required' => 'Заполните поле "Технологии"',
+        'tech.max:50' => 'Превышено количество символов в поле "Технологии"',
+        'essay.required' => 'Заполните поле "Специальность"',
+        'essay.max:500' => 'Текст реферата слишком большой',
+        ];
     }
 
 }

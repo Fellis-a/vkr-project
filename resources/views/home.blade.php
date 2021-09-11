@@ -54,6 +54,7 @@
                 </tr>
               </thead>
               <tbody>
+                @if(count($vkrs) > 0)
                 <?php $i = 0 ?>
                 @foreach($vkrs as $vkr)
                 <?php $i++ ?>
@@ -66,29 +67,34 @@
                   <td class="pl-2"><button type="button" class="btn btn-sm  btn-danger" data-id="{{ $vkrId=$vkr->id }}" data-toggle="modal" data-target="#modal">Удалить</button></td>
 
                 </tr>
+                <!-- HTML-код модального окна-->
+                <div id="modal" class="modal fade ">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Удаление записи</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Вы уврены, что хотите удалить запись?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <a href="{{ route('vkr-delete', $vkrId) }}" class="btn btn-default btn-danger">Удалить</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 @endforeach
+                @else
+
+                  <td colspan="6">У вас пока нет записей! Нажмите "Добавить ВКР"</td>
+
+                @endif
               </tbody>
             </table>
             @yield('formCont')
 
-            <!-- HTML-код модального окна-->
-            <div id="modal" class="modal fade ">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Удаление записи</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Вы уврены, что хотите удалить запись?</p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <a href="{{ route('vkr-delete', $vkrId) }}" class="btn btn-default btn-danger">Удалить</a>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             @if(!empty(Session::get('error')))
             <div class="alert alert-danger"> {{ Session::get('error') }}</div>

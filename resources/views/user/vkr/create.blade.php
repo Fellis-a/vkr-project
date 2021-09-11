@@ -33,31 +33,22 @@
           <form action="{{route('vkr-addForm')}}" method="post">
             @csrf
 
-
-
-            <form class="needs-validation" novalidate>
               <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="title">Тема ВКР</label>
-                  <input type="text" class="form-control" name="title" id="title" placeholder="Введите тему ВКР..." required>
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
+                  <input type="text" class="form-control" name="title" value="{{ old('title') }}" id="title" placeholder="Введите тему ВКР..." required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-3 mb-3">
                   <div class="form-group">
                     <label for="specialty">Специальность</label>
-                    <select class="form-control" id="specialty" name="specialty_id">
+                    <select class="form-control" id="specialty" name="specialty_id" >
                       <option selected>-Выбрать код-</option>
                       @foreach ($specialty as $option)
                       <option value="{{$option->id}}">{{ $option->code }} - {{ $option->title }}</option>
                       @endforeach
                     </select>
-                  </div>
-                  <div class="valid-feedback">
-                    Looks good!
                   </div>
                 </div>
                 <div class="col-md-3 mb-3">
@@ -74,9 +65,7 @@
                     </select>
                   </div>
                   <!--<input type="text" class="form-control" id="validationCustomUsername" placeholder="Имя пользователя" aria-describedby="inputGroupPrepend" required>-->
-                  <div class="invalid-feedback">
-                    Please choose a username.
-                  </div>
+
                 </div>
 
 
@@ -91,25 +80,20 @@
                       <option>5</option>
                     </select>
                   </div>
-                  <div class="invalid-feedback">
-                    Please provide a valid city.
-                  </div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="tech">Технологии</label>
-                  <input type="text" class="form-control" id="technology" name="tech" placeholder="ИИ, машинное обучение, UI..." required>
-                  <div class="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
+                  <input type="text" class="form-control" id="technology" value="{{ old('tech') }}" name="tech" placeholder="ИИ, машинное обучение, UI..." required>
+
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="essay">Реферат</label>
-                  <textarea class="form-control" id="essay" name="essay" placeholder="Введите текст реферата..." rows="3"></textarea>
+                  <textarea class="form-control" id="essay" value="{{ old('essay') }}" name="essay" placeholder="Введите текст реферата..." rows="3"></textarea>
                 </div>
               </div>
               <button class="btn btn-primary" type="submit">Сохранить</button>
@@ -120,29 +104,6 @@
   </div>
 </div>
 
-
-<script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-  (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-      // Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-          if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    }, false);
-  })();
-</script>
-
-</form>
 
 
 @endsection

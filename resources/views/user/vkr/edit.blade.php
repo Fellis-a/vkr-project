@@ -32,14 +32,10 @@
           <form action="{{ route('vkr-update', $id) }}" method="post">
             @csrf
 
-            <form class="needs-validation" novalidate>
               <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="title">Тема ВКР</label>
                   <input type="text" class="form-control" name="title" id="title" placeholder="Введите тему ВКР" value="{{$vkr->title}}" required>
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
                 </div>
               </div>
               <div class="form-row">
@@ -52,9 +48,6 @@
                       <option value="{{$option->id}}">{{ $option->code }} - {{ $option->title }}</option>
                       @endforeach
                     </select>
-                  </div>
-                  <div class="valid-feedback">
-                    Looks good!
                   </div>
                 </div>
                 <div class="col-md-3 mb-3">
@@ -71,9 +64,7 @@
                     </select>
                   </div>
                   <!--<input type="text" class="form-control" id="validationCustomUsername" placeholder="Имя пользователя" aria-describedby="inputGroupPrepend" required>-->
-                  <div class="invalid-feedback">
-                    Please choose a username.
-                  </div>
+
                 </div>
 
 
@@ -88,25 +79,20 @@
                       <option>5</option>
                     </select>
                   </div>
-                  <div class="invalid-feedback">
-                    Please provide a valid city.
-                  </div>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="tech">Технологии</label>
                   <input type="text" class="form-control" id="technology" name="tech" value="{{$vkr->tech}}" placeholder="ИИ, машинное обучение, UI..." required>
-                  <div class="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
+
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="essay">Реферат</label>
-                  <textarea class="form-control" id="essay" name="essay" value="{{$vkr->essay}}" placeholder="Введите текст реферата..." rows="3"></textarea>
+                  <textarea class="form-control" id="essay" name="essay" value="{{$vkr->essay}}" placeholder="Введите текст реферата..." rows="3" required>{{$vkr->essay}}</textarea>
                 </div>
               </div>
               <button class="btn btn-primary" type="submit">Обновить</button>
@@ -117,8 +103,6 @@
   </div>
 </div>
 
-
-</form>
 
 
 @endsection
