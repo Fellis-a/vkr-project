@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>{{ config('app.name', 'Архив ВКР | ИИТиАД Ирниту') }}</title>
+        <title>Архив ВКР | ИИТиАД Ирниту - Главная страница</title>
 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -65,10 +66,29 @@
                       </div>
                     <div class="card-body border ">
                                 <div class="mx-auto pull-right">
-                                    <div class="">
 
                                             <a href="{{ route('search-vkr') }}" class="btn btn-sm btn-success mt-1">Поиск по теме</a>
-                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <form class="form-inline" action="">
+                                      <label for="year_filter">Filter By Category &nbsp;</label>
+                                       <select class="form-control" id="year_filter" name="year">
+                                        <option value="">Select Category</option>
+                                       @if(count($vkrs))
+                                          @foreach($vkrs as $vkr)
+                                             <option value="{{$vkr->year}}"  {{(Request::query('year') && Request::query('year')==$vkr->year)?'selected':''}}  >{{$vkr->year}}</option>
+                                          @endforeach
+                                        @endif
+
+
+                                      </select>
+
+                                       <button type="button" onclick="search_post()" class="btn btn-primary" >Search</button>
+                                       @if(Request::query('year'))
+                                        <a class="btn btn-success" href="{{route('welcome')}}">Clear</a>
+                                       @endif
+
+                                    </form>
                                 </div>
                         </div>
 
@@ -78,7 +98,7 @@
                               <thead>
                                 <tr>
                                   <th>№</th>
-                                  <th>Название</th>
+                                  <th> Название</th>
                                   <th class="dropdown-toggle">Специальность</th>
                                   <th class="dropdown-toggle">Год</th>
                                   <th>Преподаватель</th>
@@ -86,7 +106,6 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                @section('homesearch')
 
 
 
@@ -106,7 +125,7 @@
                             </table>
                           </div>
                           <div class="d-flex justify-content-sm-center">
-                              {{ $vkrs->links("comp.customPages") }}
+                              {{ $vkrs->withQueryString()->links("comp.customPages") }}
                           </div>
                   </div>
 
@@ -117,3 +136,15 @@
 
     </body>
 </html>
+
+@section('javascript')
+<script type="text/javascript">
+  var query=<?php echo json_encode((object)Request::only(['year','keyword'])); ?>;
+  function search_post(){
+    Object.assign(query,{'year': $('#year_filter').val()});
+    Object.assign(query,{'keyword': $('#keyword').val()});
+    window.location.href="{{route('main')}}?"+$.param(query);
+  }
+
+</script>
+@endsection

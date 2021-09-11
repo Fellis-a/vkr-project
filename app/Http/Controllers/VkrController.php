@@ -7,7 +7,7 @@ use App\Models\vkrs;
 use App\Models\specialty;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\Collection;
 class VkrController extends Controller
 {
     /**
@@ -23,8 +23,26 @@ class VkrController extends Controller
       $vkrs = vkrs::with('specialty')->paginate(15);
       $user = vkrs::with('user')->paginate(15);
 
+      $data['specialty']=specialty::orderBy('id','desc')->get();
 
-     return view('welcome', compact('vkrs','user'));
+     //return view('welcome', compact('vkrs','user'));
+
+     //$data['vkrs']=vkrs::orderBy('id','desc')->get();
+
+      $post_query=vkrs::with('specialty')->paginate(15);
+
+      if($request->specialty){
+        $vkrs->whereHas('specialty',function($q) use ($request){
+         $q->where('specialty',$request->specialty);
+        });
+      }
+
+      if($request->keyword){
+       $post_query->where('title','LIKE','%'.$request->keyword.'%');
+      }
+
+      $data['vkrs']=$post_query;
+      return view('welcome',$data);
 
      /*$vkrs = vkrs::where(
          [
@@ -56,7 +74,7 @@ class VkrController extends Controller
                         ->get();
 
         return response()->json($filter_data);
-    }*/
+    }
 
     public function find(Request $request){
             $request->validate([
@@ -84,7 +102,6 @@ class VkrController extends Controller
         $user = vkrs::with('user')->paginate(15);
         $specialty = specialty::with('vkrs')->get();
             return view('search', compact('vkrs', 'user', 'specialty'));
-
     }
 
     /**
@@ -143,5 +160,12 @@ class VkrController extends Controller
         //
     }
 
+    public function sort()
+    {
+        $vkrs = vkrs::all();
+        $years = $vkrs->sortBy('year')->pluck('year')->unique();
+        //$year = $vkrs->sortBy('year')->pluck('year')->unique();
+        return view('welcome', compact('years'));
+    }
 
 }
