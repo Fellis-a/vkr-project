@@ -48,7 +48,9 @@ class HomeController extends Controller
         return view('home', compact('vkrs','specialty'));
     }
 
-    public function store(AddVkrRequest $req){
+    public function store(Request $req){
+
+
     $user = auth()->user();
     $newVkr = new vkrs();
     $newVkr->title = $req -> input('title');
@@ -59,7 +61,7 @@ class HomeController extends Controller
     $newVkr->specialty_id = $req -> input('specialty_id');
     $newVkr->user_id = $user ->id;;
 
-    $newVkr->$req->validated()->save();
+    $newVkr->save();
     return redirect('/home')->with('success', 'ВКР успешно добавлена!');//переадресация на главную страницу
 
 
@@ -159,7 +161,7 @@ class HomeController extends Controller
           $newVkr->specialty_id = $request -> input('specialty_id');
           $newVkr->user_id = $user ->id;;
 
-          $newVkr->$req->validated()->save();
+          $newVkr->save();
           $vkr=$newVkr;
           return view('user.vkr.show', compact('vkr'))->with('success', 'ВКР успешно отредактирована!');//переадресация на главную страницу
 

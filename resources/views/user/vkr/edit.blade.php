@@ -43,7 +43,6 @@
                   <div class="form-group">
                     <label for="specialty">Специальность</label>
                     <select class="form-control" id="specialty" name="specialty_id">
-                      <option selected>-Выбрать специальность-</option>
                       @foreach ($specialty as $option)
                       <option value="{{$option->id}}">{{ $option->code }} - {{ $option->title }}</option>
                       @endforeach
@@ -54,7 +53,6 @@
                   <div class="form-group">
                     <label for="year">Год защиты</label>
                     <select class="form-control" name="year" value="{{$vkr->year}}">
-                      <option selected>-Выбрать год-</option>
                       <option value="2015">2015</option>
                       <option value="2016">2016</option>
                       <option value="2017">2017</option>
@@ -73,7 +71,6 @@
                   <div class="form-group">
                     <label for="mark">Оценка</label>
                     <select class="form-control" id="mark" name="mark" value="{{$vkr->mark}}">
-                      <option selected>-Выбрать оценку-</option>
                       <option>3</option>
                       <option>4</option>
                       <option>5</option>
