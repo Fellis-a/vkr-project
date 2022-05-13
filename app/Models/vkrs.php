@@ -45,6 +45,19 @@ class vkrs extends Model
       'email_verified_at' => 'datetime',
   ];*/
 
+  public function scopeSearch($query, $term)
+   {
+       $term = "%$term%";
+       $query->where(function ($query) use ($term) {
+           $query->where('title', 'like', $term)
+               ->orWhere('tech', 'like', $term)
+               ->orWhere('year', 'like', $term)
+               ->orWhereHas('specialty', function ($query) use ($term) {
+                   $query->where('title', 'like', $term);
+               });
+       });
+   }
+
   public function User()
    {
      return $this->belongsTo(User::class, 'user_id');
@@ -53,4 +66,6 @@ class vkrs extends Model
     {
         return $this->belongsTo(specialty::class, 'specialty_id');
     }
+
+    
 }

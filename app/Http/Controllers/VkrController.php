@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VkrResource;
 use Illuminate\Http\Request;
 use App\Models\vkrs;
 use App\Models\specialty;
@@ -15,67 +16,52 @@ class VkrController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
-      //$vkrs = DB::table('vkrs')->simplePaginate(8);
-      //->paginate(15)
-      $vkrs = vkrs::with('specialty')->paginate(15);
-      $user = vkrs::with('user')->paginate(15);
+      $paginate = request('paginate',10);
+      $search_term = request('q','');
+      $selectedSpecialty = request('selectedSpecialty');
+
+      $vkrs = vkrs::with(['specialty', 'User'])
+        ->when($selectedSpecialty,function($query) use ($selectedSpecialty){
+        $query->where('specialty_id',$selectedSpecialty);
+    })
+        ->search(trim($search_term))
+        ->paginate($paginate);
+
+      return VkrResource::collection($vkrs);
+      
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function vkrsList(Request $request)
+    {
+
+      // $vkrs = vkrs::with('specialty')->paginate(15);
+      // $user = vkrs::with('user')->paginate(15);
 
       $data['specialty']=specialty::orderBy('id','desc')->get();
 
-     //return view('welcome', compact('vkrs','user'));
+      $post_query=vkrs::with('specialty');
 
-     //$data['vkrs']=vkrs::orderBy('id','desc')->get();
-
-      $post_query=vkrs::with('specialty')->paginate(15);
-
-      if($request->specialty){
-        $vkrs->whereHas('specialty',function($q) use ($request){
-         $q->where('specialty',$request->specialty);
-        });
-      }
+      // if($request->specialty){
+        // $vkrs->whereHas('specialty',function($q) use ($request){
+        //  $q->where('specialty',$request->specialty);
+        // });
+      // }
 
       if($request->keyword){
        $post_query->where('title','LIKE','%'.$request->keyword.'%');
       }
 
-      $data['vkrs']=$post_query;
-      return view('welcome',$data);}
-
-     /*$vkrs = vkrs::where(
-         [
-             ['title', '!=', Null],
-             [function ($query) use ($request){
-                 if (($term=$request->term)) [
-                     $query->orWhere
-                 ]
-             }
-
-         ]
-         ]
-         )
-        if (request('term')) {
-            $vkrs->where('title', 'Like', '%' . request('term') . '%');
-        }
-
-        return $vkrs->orderBy('id', 'DESC')->paginate(10);
+      // $data['vkrs']=$post_query;
+      return response()->json($post_query->toArray());
     }
-
-    function action(Request $request)
-    {
-        $data = $request->all();
-
-        $query = $data['query'];
-
-        $filter_data = vkrs::select('title')
-                        ->where('title', 'LIKE', '%'.$query.'%')
-                        ->get();
-
-        return response()->json($filter_data);
-    }*/
-
 
     public function find(Request $request){
             $request->validate([

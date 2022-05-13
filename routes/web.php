@@ -19,13 +19,17 @@ use App\Http\Controllers\PublicVkrController;
 |
 */
 
-Route::get('/', [VkrController::class, 'index'])->name('main');
+//Route::get('/vkrs', [VkrController::class, 'vkrsList'])->name('main2');
 //Route::get('/search', [VkrController::class, 'search'])->name('vkr-search');
 //Route::resource('vkr', PublicVkrController::class);
 Route::get('/search',[VkrController::class, 'search'])->name('search-vkr');
 Route::get('/find',[VkrController::class, 'find'])->name('find-vkr');
+Route::get('/vkrs', function(){
+    return view('welcome');
+});
 
 Route::get('vkr/{id}', [VkrController::class, 'show'])->name('vkr-single');
+Route::get('/', [VkrController::class, 'index'])->name('main');
 
 Auth::routes();
 
