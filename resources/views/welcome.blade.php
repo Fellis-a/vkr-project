@@ -15,6 +15,7 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <link rel="stylesheet" type="text/css" href="css/app.css">
     </head>
 
     <body class="app">
@@ -58,93 +59,26 @@
                     </div>
                 </div>
             </nav>
-            <main class="py-4">
-                <div class="container mt-5">
-
-                      <div class="card-header">
-                      <h5>Добро пожаловать!</h5>
-                      </div>
-                    <div class="card-body border ">
-                                <div class="mx-auto pull-right">
-
-                                            <a href="{{ route('search-vkr') }}" class="btn btn-sm btn-success mt-1">Поиск по теме</a>
-                                </div>
-                                <div class="form-group">
-                                  <form class="form-inline" action="">
-                                      <label for="year_filter">Filter By Category &nbsp;</label>
-                                       <select class="form-control" id="year_filter" name="year">
-                                        <option value="">Select Category</option>
-                                       @if(count($vkrs))
-                                          @foreach($vkrs as $vkr)
-                                             <option value="{{$vkr->year}}"  {{(Request::query('year') && Request::query('year')==$vkr->year)?'selected':''}}  >{{$vkr->year}}</option>
-                                          @endforeach
-                                        @endif
-
-
-                                      </select>
-
-                                       <button type="button" onclick="search_post()" class="btn btn-primary" >Search</button>
-                                       @if(Request::query('year'))
-                                        <a class="btn btn-success" href="{{route('welcome')}}">Clear</a>
-                                       @endif
-
-                                    </form>
-                                </div>
-                        </div>
-
-                  <div class="card-body">
-                      <div class="table-responsive">
-                            <table class="table table-striped table-sm mt-4">
-                              <thead>
-                                <tr>
-                                  <th>№</th>
-                                  <th> Название</th>
-                                  <th class="dropdown-toggle">Специальность</th>
-                                  <th class="dropdown-toggle">Год</th>
-                                  <th>Преподаватель</th>
-                                  <th>Теги</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-
-
-
-                                <?php $i = 0 ?>
-                                @foreach($vkrs as $vkr)
-                                <?php $i++ ?>
-                                <tr>
-                                  <td>{{$i}}</td>
-                                  <td><a href="{{ route('vkr-single', $vkr->id) }}">{{$vkr->title}}</a></td>
-                                  <td>{{$vkr->specialty->code}}</td>
-                                  <td>{{$vkr->year}}</td>
-                                  <td>{{$vkr->user['name']}}</td>
-                                  <td>{{$vkr->tech}}</td>
-                                </tr>
-                                @endforeach
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="d-flex justify-content-sm-center">
-                              {{ $vkrs->withQueryString()->links("comp.customPages") }}
-                          </div>
-                  </div>
-
-                </div>
-            </main>
+            123
+            <div id="app">
+                //<test/>
+                <vkrs-index></vkrs-index>
+            </div>
+        
             @include('comp.footer')
         </div>
+
+        <script src="./js/app.js">
+
+</script>
 
     </body>
 </html>
 
 @section('javascript')
+
 <script type="text/javascript">
-  var query=<?php echo json_encode((object)Request::only(['year','keyword'])); ?>;
-  function search_post(){
-    Object.assign(query,{'year': $('#year_filter').val()});
-    Object.assign(query,{'keyword': $('#keyword').val()});
-    window.location.href="{{route('main')}}?"+$.param(query);
-  }
+ 
 
 </script>
 @endsection
