@@ -86,7 +86,7 @@
 
                     <tr v-for="vkr in vkrs.data" :key="vkr.id">
                        
-                        <td><button @click = "oneVkr">My Book </button></td>
+                        <td><router-link :to="{ name: 'vkrSingle', params: { id: vkr.id } }">Navigate to Page2</router-link></td>
                         <td>{{ vkr.title }}</td>
                         <td>{{ vkr.specialty }}</td>
                         <td>{{ vkr.year }}</td>
@@ -127,7 +127,7 @@ export default {
             specialties : {},
             selectedSpecialty : '',
             vkr: {
-                    id: '6'
+                    id: '0'
                   }
           
         }
@@ -141,6 +141,10 @@ export default {
         },
         selectedSpecialty: function(value){
             this.getVkrs();
+        },
+       $route(to, from) {
+           this.getVkrs();
+           
         }
     },
     computed: {

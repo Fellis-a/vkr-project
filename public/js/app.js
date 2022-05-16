@@ -1880,6 +1880,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app.js */ "./resources/js/app.js");
 //
 //
 //
@@ -1899,8 +1900,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['id']
+  name: 'VkrSingle',
+  data: function data() {
+    return {
+      vkrs: {},
+      id: 0
+    };
+  },
+  created: function created() {
+    this.id = this.$route.params.id;
+  },
+  methods: {
+    navigate: function navigate() {
+      _app_js__WEBPACK_IMPORTED_MODULE_0__.default.go(-1);
+    },
+    getVkrs: function getVkrs() {
+      var _this = this;
+
+      axios.get('/api/vkrs').then(function (response) {
+        _this.vkrs = response.data;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2040,7 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
       specialties: {},
       selectedSpecialty: '',
       vkr: {
-        id: '6'
+        id: '0'
       }
     };
   },
@@ -2052,6 +2085,9 @@ __webpack_require__.r(__webpack_exports__);
       this.getVkrs();
     },
     selectedSpecialty: function selectedSpecialty(value) {
+      this.getVkrs();
+    },
+    $route: function $route(to, from) {
       this.getVkrs();
     }
   },
@@ -2105,13 +2141,18 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 var __dirname = "/";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "../../../../Users/mac/Downloads/vue-router-dev/dist/vue-router.esm.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "../../../../Users/mac/Downloads/vue-router-dev/dist/vue-router.esm.js");
 /* harmony import */ var _components_VkrSingle_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/VkrSingle.vue */ "./resources/js/components/VkrSingle.vue");
+/* harmony import */ var _components_VkrsIndex_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/VkrsIndex.vue */ "./resources/js/components/VkrsIndex.vue");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
+
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_3__.default);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2121,25 +2162,31 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
   base: __dirname,
   routes: [{
     path: '/vkr/:id',
-    name: 'vkr',
+    name: 'vkrSingle',
     component: _components_VkrSingle_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  }, {
+    path: '/vkrs',
+    name: 'vkrAll',
+    component: _components_VkrsIndex_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    props: true
   }]
 });
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default); //Vue.component('test', require('./components/Index.vue').default);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default); //Vue.component('test', require('./components/Index.vue').default);
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('vkrs-index', __webpack_require__(/*! ./components/VkrsIndex.vue */ "./resources/js/components/VkrsIndex.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "../../../../Users/mac/Downloads/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('vkrs-index', __webpack_require__(/*! ./components/VkrsIndex.vue */ "./resources/js/components/VkrsIndex.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "../../../../Users/mac/Downloads/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_1__.default({
+var app = new vue__WEBPACK_IMPORTED_MODULE_2__.default({
   el: '#app',
   router: router
 });
@@ -41648,13 +41695,47 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("div", { attrs: { id: "vkr-single" } }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(_vm.id) +
-                  "\n                    "
-              ),
-            ]),
+            _c(
+              "div",
+              { attrs: { id: "vkr-single" } },
+              [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(_vm.id) +
+                    "\n                         "
+                ),
+                _vm._l(_vm.vkrs.data, function (vkr) {
+                  return _c("tr", { key: vkr.id }, [
+                    _c("td", [_vm._v(_vm._s(vkr.title))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(vkr.specialty))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(vkr.year))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(vkr.user))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(vkr.tech))]),
+                  ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticStyle: {
+                      cursor: "pointer",
+                      "text-decoration": "underline",
+                    },
+                    on: {
+                      click: function ($event) {
+                        return _vm.navigate()
+                      },
+                    },
+                  },
+                  [_vm._v("Navigate to Page1")]
+                ),
+              ],
+              2
+            ),
             _vm._v(
               "\n                    I'm an example component.\n                "
             ),
@@ -41845,11 +41926,21 @@ var render = function () {
               _vm._v(" "),
               _vm._l(_vm.vkrs.data, function (vkr) {
                 return _c("tr", { key: vkr.id }, [
-                  _c("td", [
-                    _c("button", { on: { click: _vm.oneVkr } }, [
-                      _vm._v("My Book "),
-                    ]),
-                  ]),
+                  _c(
+                    "td",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to: { name: "vkrSingle", params: { id: vkr.id } },
+                          },
+                        },
+                        [_vm._v("Navigate to Page2")]
+                      ),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(vkr.title))]),
                   _vm._v(" "),

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VkrSingle from './components/VkrSingle.vue'
+import VkrsIndex from './components/VkrsIndex.vue'
 
 Vue.use(VueRouter)
 
@@ -20,9 +21,17 @@ window.Vue = require('vue').default;
 const router = new VueRouter({
     base: __dirname,
     routes: [
-      { path: '/vkr/:id', name: 'vkr', component: VkrSingle }
+      { path: '/vkr/:id', name: 'vkrSingle', component: VkrSingle },
+      {
+        path: '/vkrs',
+        name: 'vkrAll',
+        component: VkrsIndex,
+        props: true
+    },
+
     ]
   })
+  export default router;
   
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
