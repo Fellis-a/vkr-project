@@ -59,10 +59,13 @@
                     </div>
                 </div>
             </nav>
-            123
-            <div id="app">
-                //<test/>
-                <vkrs-index></vkrs-index>
+            <div class="container" id="app">
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                      
+                        <vkrs-index></vkrs-index>
+                    </div>
+                </div>
             </div>
         
             @include('comp.footer')

@@ -1,24 +1,21 @@
 <template>
     <div>
-          <div class="card">
-                            <div class="card-header">
-                              
-                                                         
-        <div class="row">
-                <div class="col-md-1 col-xl-3 col-xs-1">
-                     
+        <div class="d-flex justify-content-between align-content-center mb-2">
+            <div class="d-flex">
+                <div>
+                    <div class="d-flex align-items-center ml-4">
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
-                            > Количество записей</label
+                            >Per Page</label
                         >
                         <select v-model="paginate" class="form-control form-control-sm">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
                         </select>
-                
+                    </div>
                 </div>
-                <div >
-                    <div class="col-md-4 col-xl-3 col-xs-1">
+                <div>
+                    <div class="d-flex align-items-center ml-4">
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
                             >Cпециальности</label
                         >
@@ -30,7 +27,7 @@
                 </div>
 
                 <div>
-                    <div class="col-md-4 col-xl-3 col-xs-1 ">
+                    <div class="d-flex align-items-center ml-4">
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
                             >Section</label
                         >
@@ -41,22 +38,30 @@
                     </div>
                 </div>
 
-               <div class="col-md-4 col-xl-3 col-xs-1">
-                    <input v-model="search" type="text" placeholder="Введите название, год, технологии" class="border px-2 rounded-lg" />
-                 <div class="col-md-4 col-xl-3 col-xs-1">
-                     <div class="btn btn-success" @click="onClickButton">Поиск</div>
-                </div>
-            </div>
               
-            
-
             </div>
-           
-          
-         </div>
-                        
+            <div class="col-md-4">
+                <input
+                    v-model.lazy="search"
+                    type="search"
+                    class="form-control"
+                    placeholder="Введите название, год, технологии"
+                />
+                <div class="btn btn-success" @click="onClickButton">Click</div>
+            </div>
+        </div>
 
-        
+        <div class="col-md-10 mb-2">
+            <div>
+                You are currently selecting all
+                <strong>10</strong> items.
+            </div>
+            <div>
+                You have selected <strong>10</strong> items, Do you want to
+                Select All <strong>25</strong>?
+                <a href="" class="ml-2">Select All</a>
+            </div>
+        </div>
 
         <div class="card-body table-responsive p-0">
             <table class="table table-hover">
@@ -86,16 +91,14 @@
 
                     <tr v-for="vkr in vkrs.data" :key="vkr.id">
                        
-                        <td><button @click = "oneVkr">My Book </button></td>
+                        <td>{{  }}</td>
                         <td>{{ vkr.title }}</td>
                         <td>{{ vkr.specialty }}</td>
                         <td>{{ vkr.year }}</td>
                         <td>{{ vkr.user }}</td>
                         <td>{{ vkr.tech }}</td>
-                        
                       
                     </tr>
-                    <vkr-single :id="vkr.id" />
                 </tbody>
             </table>
         </div>
@@ -104,21 +107,11 @@
                 <pagination :data="vkrs" @pagination-change-page="getVkrs"></pagination>
             </div>
         </div>
-        </div>
     </div>
 </template>
 
 <script>
-import VkrSingle from './VkrSingle.vue';
-
 export default {
-    components:{
-        
-        VkrSingle
-        
-
-    },
-    
     data(){
         return {
             vkrs: {},
@@ -126,10 +119,6 @@ export default {
             search : "",
             specialties : {},
             selectedSpecialty : '',
-            vkr: {
-                    id: '6'
-                  }
-          
         }
     },
     watch:{
@@ -143,13 +132,6 @@ export default {
             this.getVkrs();
         }
     },
-    computed: {
-        filteredItems() {
-            return _(this.items).filter(x => {
-                return this.search == "" || x.title.toLowerCase().includes(this.search.toLowerCase());
-            }).orderBy(x => x[this.sortedBy]).value();
-        }
-      },
     methods: {
         getVkrs(page = 1){
             axios.get('/api/vkrs?page='+ page + '&paginate=' + this.paginate
@@ -158,15 +140,7 @@ export default {
             .then(response => {
                 this.vkrs = response.data;
             });
-        },
-         onClickButton() {
-            this.getVkrs();
-        },
-        oneVkr(){
-               // window.location.href = "vkr/{id}";
-                // this.$router.push('api/mybook/pages');
-                // this.$store.dispatch('fetchmybook');
-            }
+        }
     },
     mounted(){
         axios.get('/api/specialties')

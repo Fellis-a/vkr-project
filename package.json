@@ -27,6 +27,7 @@
     "dependencies": {
         "laravel-vue-pagination": "file:../../../../Users/mac/Downloads/laravel-vue-pagination",
         "tailwindcss": "^2.2.7",
-        "vue-easytable": "^2.16.3"
+        "vue-easytable": "^2.16.3",
+        "vue-router": "file:../../../../Users/mac/Downloads/vue-router-dev"
     }
 }
