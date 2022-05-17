@@ -2,8 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VkrSingle from './components/VkrSingle.vue'
 import VkrsIndex from './components/VkrsIndex.vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+
 
 Vue.use(VueRouter)
+Vue.use(VueSweetalert2);
 
 
 
@@ -39,6 +42,14 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('vkrs-index', require('./components/VkrsIndex.vue').default);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
+
+
+//Setup custom events 
+require('./customEvents.js'); 
+
+//Import Sweetalert2
+
+//Import v-from
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -5,7 +5,7 @@
                               
                                                          
         <div class="row">
-                <div class="col-md-1 col-xl-3 col-xs-1">
+                <div class="col-md-1 col-xl-2 col-xs-1">
                      
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
                             > Количество записей</label
@@ -17,7 +17,7 @@
                         </select>
                 
                 </div>
-                <div >
+               
                     <div class="col-md-4 col-xl-3 col-xs-1">
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
                             >Cпециальности</label
@@ -27,9 +27,9 @@
                             <option v-for="item in specialties" :key="item.id" :value="item.id">{{ item.code }}</option>
                         </select>
                     </div>
-                </div>
+                
 
-                <div>
+              
                     <div class="col-md-4 col-xl-3 col-xs-1 ">
                         <label for="paginate" class="text-nowrap mr-2 mb-0"
                             >Section</label
@@ -39,13 +39,13 @@
                             <option value="1">Section A</option>
                         </select>
                     </div>
-                </div>
+               
 
                <div class="col-md-4 col-xl-3 col-xs-1">
                     <input v-model="search" type="text" placeholder="Введите название, год, технологии" class="border px-2 rounded-lg" />
-                 <div class="col-md-4 col-xl-3 col-xs-1">
-                     <div class="btn btn-success" @click="onClickButton">Поиск</div>
-                </div>
+               
+                     <button class="btn btn-success border px-2 rounded-sm" @click="onClickButton">Поиск</button>
+                
             </div>
               
             
@@ -64,9 +64,6 @@
                     <tr>
                       
                         <th>
-                            №
-                        </th>
-                        <th>
                             Название
                         </th>
                         <th>
@@ -76,22 +73,31 @@
                             Год
                         </th>
                         <th>
+                            Оценка
+                        </th>
+                        <th>
                             Преподаватель
                         </th>
                         <th>
                             Теги
+                        </th>
+                         <th>
+                            Реферат
                         </th>
                       
                     </tr>
 
                     <tr v-for="vkr in vkrs.data" :key="vkr.id">
                        
-                        <td><router-link :to="{ name: 'vkrSingle', params: { id: vkr.id } }">Navigate to Page2</router-link></td>
                         <td>{{ vkr.title }}</td>
                         <td>{{ vkr.specialty }}</td>
                         <td>{{ vkr.year }}</td>
+                        <td>{{ vkr.mark }}</td>
                         <td>{{ vkr.user }}</td>
                         <td>{{ vkr.tech }}</td>
+                        <td><a href="#" data-id="vkr.id" @click="openEssay(vkr.essay)">
+                            Текст реферата
+                        </a></td>
                         
                       
                     </tr>
@@ -110,6 +116,7 @@
 
 <script>
 import VkrSingle from './VkrSingle.vue';
+import Swal from 'sweetalert2'
 
 export default {
     components:{
@@ -166,10 +173,19 @@ export default {
          onClickButton() {
             this.getVkrs();
         },
-        oneVkr(){
-               // window.location.href = "vkr/{id}";
-                // this.$router.push('api/mybook/pages');
-                // this.$store.dispatch('fetchmybook');
+        openEssay(essay){
+             Swal.fire({
+                title: 'Текст реферата',
+                text: essay,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Закрыть',
+                allowEnterKey: true,
+                allowOutsideClick: true,
+                html: 
+                '<p align="left"> ' +essay +
+                '</p>',
+               
+                })
             }
     },
     mounted(){

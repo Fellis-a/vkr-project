@@ -52,6 +52,7 @@ class vkrs extends Model
            $query->where('title', 'like', $term)
                ->orWhere('tech', 'like', $term)
                ->orWhere('year', 'like', $term)
+               ->orWhere('mark', 'like', $term)
                ->orWhereHas('specialty', function ($query) use ($term) {
                    $query->where('title', 'like', $term);
                });

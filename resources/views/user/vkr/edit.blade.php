@@ -71,9 +71,9 @@
                   <div class="form-group">
                     <label for="mark">Оценка</label>
                     <select class="form-control" id="mark" name="mark" value="{{$vkr->mark}}">
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                      <option>Отлично</option>
+                      <option>Хорошо</option>
+                      <option>Удовлетворительно</option>
                     </select>
                   </div>
                 </div>
