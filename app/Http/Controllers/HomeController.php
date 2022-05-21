@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 use App\Models\vkrs;
 use App\Models\specialty;
 use App\Models\User;
+use App\Models\vacant_vkrs;
 use Illuminate\Support\Facades\DB;
 
 
@@ -167,4 +168,32 @@ class HomeController extends Controller
 
 
       }
+
+      /**
+       * Update the specified resource in storage.
+       *
+       * @param  \Illuminate\Http\Request  $request
+       * @param  int  $id
+       * @return \Illuminate\Http\Response
+       */
+      public function addVacantVkr(Request $request)
+      {
+          $user = auth()->user();
+          $newVacantVkr = new vacant_vkrs();
+          $newVacantVkr->title = $request -> input('title');
+          $newVacantVkr->description = $request -> input('description');
+          $newVacantVkr->user_id = $user ->id;;
+
+          $newVacantVkr->save();
+         
+          return redirect('/home')->with('success', 'Информация о ВКР добавлена!');//переадресация на главную страницу
+
+
+      }
+
+      public function createVacantVkr(){
+
+
+        return view('user.vkr.createVacantVkr');
+    }
 }

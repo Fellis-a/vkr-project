@@ -57,4 +57,8 @@ class User extends Authenticatable
    {
      return $this->hasMany(vkrs::class);
    }
+   public function vacantVkrs()
+   {
+     return $this->hasMany(vacant_vkrs::class);
+   }
 }

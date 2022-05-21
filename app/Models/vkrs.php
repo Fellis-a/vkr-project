@@ -55,7 +55,10 @@ class vkrs extends Model
                ->orWhere('mark', 'like', $term)
                ->orWhereHas('specialty', function ($query) use ($term) {
                    $query->where('title', 'like', $term);
-               });
+               })
+               ->orWhereHas('user', function ($query) use ($term) {
+                $query->where('title', 'like', $term);
+            });
        });
    }
 
