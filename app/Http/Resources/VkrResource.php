@@ -21,6 +21,8 @@ class VkrResource extends JsonResource
             'year' =>$this->year,
             'user' =>$this->User->name,
             'tech' =>$this->tech,
+            'mark' =>$this->mark,
+            'essay' =>$this->essay,
             
         ];
     }

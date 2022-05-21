@@ -33,6 +33,12 @@
 
             <div class="col mt-2">
 
+              <a role="button" class="btn btn-sm btn-block btn-primary round-3" class="text-my-own-color" href="{{ route('vkr-create-vacant')}}">+ Добавить Тему ВКР</a>
+
+            </div>
+
+            <div class="col mt-2">
+
               <a role="button" class="btn btn-sm btn-block btn-primary round-3" class="text-my-own-color" href="{{ route('vkr-create')}}">+ Добавить ВКР</a>
 
             </div>

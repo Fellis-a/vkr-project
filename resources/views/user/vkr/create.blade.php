@@ -74,10 +74,10 @@
                   <div class="form-group">
                     <label for="mark">Оценка</label>
                     <select class="form-control" id="mark" name="mark">
-                      <option selected>-Выбрать год-</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                      <option selected>-Оценка-</option>
+                      <option>отлично</option>
+                      <option>хорошо</option>
+                      <option>удовлетворительно</option>
                     </select>
                   </div>
                 </div>

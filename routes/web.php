@@ -24,12 +24,12 @@ use App\Http\Controllers\PublicVkrController;
 //Route::resource('vkr', PublicVkrController::class);
 Route::get('/search',[VkrController::class, 'search'])->name('search-vkr');
 Route::get('/find',[VkrController::class, 'find'])->name('find-vkr');
-Route::get('/vkrs', function(){
+Route::get('/', function(){
     return view('welcome');
 });
 
 Route::get('vkr/{id}', [VkrController::class, 'show'])->name('vkr-single');
-Route::get('/', [VkrController::class, 'index'])->name('main');
+//Route::get('/', [VkrController::class, 'index'])->name('main');
 
 Auth::routes();
 
@@ -43,3 +43,5 @@ Route::post('/home/{id}/edit/update', [HomeController::class, 'update'])->name('
 Route::get('/home/{id}/delete', [HomeController::class, 'destroy'])->name('vkr-delete');
 Route::get('/home/create', [HomeController::class, 'create'])->name('vkr-create');
 Route::post('/home/create/submit', [HomeController::class, 'store'])->name('vkr-addForm');
+Route::get('/home/vacantvkr', [HomeController::class, 'createVacantVkr'])->name('vkr-create-vacant');
+Route::post('/home/vacantvkr/submit', [HomeController::class, 'addVacantVkr'])->name('vkr-add-vacant');
