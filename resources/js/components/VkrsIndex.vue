@@ -67,12 +67,27 @@
                       v-model="selectedYear"
                     >
                       <option value="">-- все --</option>
-                      <option
-                        :value="i.year"
-                        v-for="i in yearsF"
-                        :key="i.year"
-                      >
+                      <option :value="i.year" v-for="i in yearsF" :key="i.year">
                         {{ i.year }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-3 col-xl-1 col-xs-1">
+                    <label for="paginate" class="text-nowrap mr-2 mb-0"
+                      >Оценка</label
+                    >
+                    <select
+                      class="form-control form-control-sm"
+                      v-model="selectedMark"
+                    >
+                      <option value="">-- все --</option>
+                      <option
+                        :value="item.mark"
+                        v-for="item in marks"
+                        :key="item.mark"
+                      >
+                        {{ item.mark }}
                       </option>
                     </select>
                   </div>
@@ -93,8 +108,13 @@
                     >
                       Поиск
                     </button>
-                    	
-                    <button @click="clear" class="btn btn-outline-secondary btn-sm ml-2">Сброс</button>
+
+                    <button
+                      @click="clear"
+                      class="btn btn-outline-secondary btn-sm ml-2"
+                    >
+                      Сброс
+                    </button>
                   </div>
                 </div>
               </div>
@@ -104,10 +124,52 @@
                   <tbody>
                     <tr>
                       <th>№</th>
-                      <th>Название</th>
+                      <th>
+                        <a href="#" @click.prevent="change_sort('title')"
+                          >Название</a
+                        >
+                        <span
+                          v-if="
+                            sort_direction == 'desc' && sort_field == 'title'
+                          "
+                          >&uarr;</span
+                        >
+                        <span
+                          v-if="
+                            sort_direction == 'asc' && sort_field == 'title'
+                          "
+                          >&darr;</span
+                        >
+                      </th>
                       <th>Специальность</th>
-                      <th>Год</th>
-                      <th>Оценка</th>
+                      <th>
+                        <a href="#" @click.prevent="change_sort('year')">Год</a>
+                        <span
+                          v-if="
+                            sort_direction == 'desc' && sort_field == 'year'
+                          "
+                          >&uarr;</span
+                        >
+                        <span
+                          v-if="sort_direction == 'asc' && sort_field == 'year'"
+                          >&darr;</span
+                        >
+                      </th>
+                      <th>
+                        <a href="#" @click.prevent="change_sort('mark')"
+                          >Оценка</a
+                        >
+                        <span
+                          v-if="
+                            sort_direction == 'desc' && sort_field == 'mark'
+                          "
+                          >&uarr;</span
+                        >
+                        <span
+                          v-if="sort_direction == 'asc' && sort_field == 'mark'"
+                          >&darr;</span
+                        >
+                      </th>
                       <th>Преподаватель</th>
                       <th>Теги</th>
                       <th>Реферат</th>
@@ -148,7 +210,7 @@
           </div>
         </b-tab>
         <b-tab title="Свободные темы">
-          <vkr-vacant/>
+          <vkr-vacant />
         </b-tab>
         <b-tab title="Дорожная карта"
           ><p>I'm the tab with the very, very long title</p></b-tab
@@ -301,11 +363,14 @@ export default {
       paginate: 10,
       search: "",
       specialties: {},
-      users: {},
+      marks: {},
       yearsF: {},
       selectedSpecialty: "",
       selectedUser: "",
       selectedYear: "",
+      selectedMark: "",
+      sort_direction: "desc",
+      sort_field: "year",
       currentVkr: null,
       scTimer: 0,
       scY: 0,
@@ -340,6 +405,9 @@ export default {
     selectedYear: function (value) {
       this.getVkrs();
     },
+    selectedMark: function (value) {
+      this.getVkrs();
+    },
     $route(to, from) {
       this.getVkrs();
     },
@@ -372,38 +440,39 @@ export default {
             "&selectedUser=" +
             this.selectedUser +
             "&selectedYear=" +
-            this.selectedYear
+            this.selectedYear +
+            "&selectedMark=" +
+            this.selectedMark +
+            "&sort_direction=" +
+            this.sort_direction +
+                "&sort_field=" +
+                this.sort_field 
         )
         .then((response) => {
           this.vkrs = response.data;
         });
     },
-    clear: function() {
-        this.selectedSpecialty = "";
-        this.selectedUser = "";
-        this.selectedYear = "";
-        this.search = "";
+    clear: function () {
+      this.selectedSpecialty = "";
+      this.selectedUser = "";
+      this.selectedYear = "";
+      this.selectedMark = "";
+      this.search = "";
     },
-    getVacantVkrs() {
-      axios.get("/api/titles").then((response) => {
-        this.titles = response.data;
-      });
-    },
+
+    change_sort(field){
+            if(this.sort_field == field){
+                this.sort_direction = this.sort_direction == "asc" ? "desc" : "asc";
+            }else{
+                this.sort_field = field;
+            }
+            this.getVkrs();
+        },
 
     onClickButton() {
       this.getVkrs();
     },
-    openEssay(essay) {
-      Swal.fire({
-        title: "Текст реферата",
-        text: essay,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Закрыть",
-        allowEnterKey: true,
-        allowOutsideClick: true,
-        html: '<p align="left"> ' + essay + "</p>",
-      });
-    },
+
     handleScroll: function () {
       if (this.scTimer) return;
       this.scTimer = setTimeout(() => {
@@ -433,8 +502,10 @@ export default {
       console.log(response);
       this.yearsF = response.data.data;
     });
-
-    this.getVacantVkrs();
+    axios.get("/api/marks").then((response) => {
+      console.log(response);
+      this.marks = response.data.data;
+    });
 
     window.addEventListener("scroll", this.handleScroll);
     this.getVkrs();

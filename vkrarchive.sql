@@ -72,7 +72,7 @@ CREATE TABLE `specialties` (
   `code` varchar(10) NOT NULL,
   `title` varchar(64) NOT NULL,
   `type` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `specialties`
@@ -101,7 +101,7 @@ CREATE TABLE `tag` (
   `id_tag` int NOT NULL,
   `title` varchar(45) NOT NULL,
   `note` tinytext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tag`
@@ -160,10 +160,10 @@ INSERT INTO `tag` (`id_tag`, `title`, `note`) VALUES
 CREATE TABLE `teacher` (
   `id_teach` int NOT NULL,
   `fio` varchar(64) NOT NULL,
-  `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `link` varchar(100) NOT NULL,
   `information` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `teacher`
@@ -229,7 +229,7 @@ CREATE TABLE `vacant_vkrs` (
   `title` varchar(200) NOT NULL,
   `description` text NOT NULL,
   `user_id` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `vacant_vkrs`
@@ -248,17 +248,17 @@ INSERT INTO `vacant_vkrs` (`id_vkr`, `title`, `description`, `user_id`) VALUES
 
 CREATE TABLE `vkrs` (
   `id` int NOT NULL,
-  `title` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `title` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `year` year NOT NULL,
-  `mark` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `mark` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `essay` text NOT NULL,
-  `tech` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tech` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `teacher_id` int DEFAULT NULL,
   `specialty_id` int NOT NULL,
   `user_id` bigint NOT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `vkrs`
@@ -305,7 +305,7 @@ CREATE TABLE `vkr_tags` (
   `id_vkr_tags` int NOT NULL,
   `id_vkr` int NOT NULL,
   `id_tags` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `vkr_tags`

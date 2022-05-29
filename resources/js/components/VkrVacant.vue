@@ -4,7 +4,7 @@
     <div class="container-fluid" >
       <div v-for="(items, user) in vkrsGroupedByName" :key="user">
         
-       <h2>{{user}}</h2>
+       <h2>{{user}}</h2> {{user.email}}
        <table>
          <tbody>
            <tr v-for="i in items" :key="i.id">

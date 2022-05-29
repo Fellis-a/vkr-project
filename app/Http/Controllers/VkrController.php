@@ -6,6 +6,7 @@ use App\Http\Resources\UsersVacantVkrs;
 use App\Http\Resources\VkrResource;
 use App\Http\Resources\VkrVacantResource;
 use App\Http\Resources\Years;
+use App\Http\Resources\Marks;
 use Illuminate\Http\Request;
 use App\Models\vkrs;
 use App\Models\specialty;
@@ -29,7 +30,17 @@ class VkrController extends Controller
     $selectedSpecialty = request('selectedSpecialty');
     $selectedUser = request('selectedUser');
     $selectedYear = request('selectedYear');
-    $years = vkrs::select('year')->distinct()->get();
+    $selectedMark = request('selectedMark');
+    $sort_direction = request('sort_direction', 'desc');
+
+    if (!in_array($sort_direction, ['asc', 'desc'])) {
+      $sort_direction = 'desc';
+    }
+    $sort_field = request('sort_field','year');
+    if (!in_array($sort_field, ['title', 'year', 'mark'])) {
+      $sort_field = 'year';
+    }
+
 
     $vkrs = vkrs::with(['specialty', 'User'])
       ->when($selectedSpecialty, function ($query) use ($selectedSpecialty) {
@@ -41,8 +52,12 @@ class VkrController extends Controller
       ->when($selectedYear, function ($query) use ($selectedYear) {
         $query->where('year', $selectedYear);
       })
+      ->when($selectedMark, function ($query) use ($selectedMark) {
+        $query->where('mark', $selectedMark);
+      })
    
       ->search(trim($search_term))
+      ->orderBy($sort_field, $sort_direction)
       ->paginate($paginate);
 
     return VkrResource::collection($vkrs);
@@ -52,6 +67,11 @@ class VkrController extends Controller
   {
     $years = vkrs::select('year')->distinct()->orderBy('year')->get();
     return Years::collection($years);
+  }
+  public function filterMark()
+  {
+    $marks = vkrs::select('mark')->distinct()->orderBy('mark')->get();
+    return Marks::collection($marks);
   }
   
 
