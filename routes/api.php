@@ -26,7 +26,6 @@ Route::get('/vkrs', [VkrController::class, 'index']);
 Route::get('/titles', [VkrController::class, 'vacant']);
 Route::get('/specialties',[SpecialtyController::class,'index']);
 Route::get('/users',[UserController::class,'index']);
-Route::get('/usersvacant', [VkrController::class, 'vacantUsers']);
 Route::get('/years', [VkrController::class, 'filterYear']);
 Route::get('/marks', [VkrController::class, 'filterMark']);
 //Route::get('/vacantvkr', [VkrController::class, 'vacant']);
