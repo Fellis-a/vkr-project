@@ -184,14 +184,16 @@
                       <td>{{ vkr.user }}</td>
                       <td>{{ vkr.tech }}</td>
                       <td>
-                        <a
-                          href="#"
+                        <b-button :disabled="vkr.essay === ''"
                           data-id="vkr.id"
                           v-b-modal.modal-1
+                          squared variant="dark"
+                           size="sm"
                           @click="currentVkr = vkr"
                         >
                           Текст реферата
-                        </a>
+                        </b-button>
+
                       </td>
                     </tr>
                   </tbody>
@@ -216,88 +218,9 @@
           ><p>I'm the tab with the very, very long title</p></b-tab
         >
         <b-tab title="Ответы на вопросы"
-          ><div class="accordion" role="tablist">
-            <b-card no-body class="mb-1">
-              <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle.accordion-1 variant="info"
-                  >Что такое ВКР?</b-button
-                >
-              </b-card-header>
-              <b-collapse
-                id="accordion-1"
-                visible
-                accordion="my-accordion"
-                role="tabpanel"
-              >
-                <b-card-body>
-                  <b-card-text
-                    >Выпускная квалификационная работа – выполненная обучающимся
-                    (несколькими обучающимися совместно) работа, демонстрирующая
-                    уровень подготовленности выпускника к самостоятельной
-                    профессиональной деятельности.</b-card-text
-                  >
-                  <b-card-text
-                    >Вид выпускной квалификационной работы, требования к ней,
-                    порядок ее выполнения и критерии ее оценки устанавливаются
-                    программой ГИА в соответствии с требованиями, установленными
-                    стандартом. Обучающимся предоставляется возможность
-                    подготовки и защиты ВКР в виде бизнес-проекта (стартапа) на
-                    стадии готовности к привлечению инвестиций или уже
-                    работающего бизнеса.
-                  </b-card-text>
-                </b-card-body>
-              </b-collapse>
-            </b-card>
-
-            <b-card no-body class="mb-1">
-              <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle.accordion-2 variant="info"
-                  >Сроки</b-button
-                >
-              </b-card-header>
-              <b-collapse
-                id="accordion-2"
-                accordion="my-accordion"
-                role="tabpanel"
-              >
-                <b-card-body>
-                  <b-card-text
-                    >Государственная итоговая аттестация проводится в
-                    соответствии с требованиями ФГОС ВО в сроки, установленные
-                    календарным учебным графиком. Для ознакомления с основнвми
-                    этапами подготовки ВКР и общими сроками, перейдите на
-                    вкладку "Дорожная карта". С календарным учебным графиком
-                    можно ознакомиться по <a href="">ссылке</a> или в личном
-                    кабинете Кампус. Со стандартами ФГОС можно ознакомиться по
-                    <a href="">ссылке</a>.
-                  </b-card-text>
-                </b-card-body>
-              </b-collapse>
-            </b-card>
-
-            <b-card no-body class="mb-1">
-              <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle.accordion-3 variant="info"
-                  >Допуск к ВКР</b-button
-                >
-              </b-card-header>
-              <b-collapse
-                id="accordion-3"
-                accordion="my-accordion"
-                role="tabpanel"
-              >
-                <b-card-body>
-                  <b-card-text
-                    >К государственной итоговой аттестации допускается
-                    обучающийся, не имеющий академической задолженности и в
-                    полном объеме выполнивший учебный план или индивидуальный
-                    учебный план по соответствующей образовательной программе
-                    высшего образования.</b-card-text
-                  >
-                </b-card-body>
-              </b-collapse>
-            </b-card>
-          </div>
+          >
+          <vkr-q-a />
+         
         </b-tab>
       </b-tabs>
     </div>
@@ -347,12 +270,15 @@
 <script>
 import VkrSingle from "./VkrSingle.vue";
 import VkrVacant from "./VkrVacant.vue";
+import VkrQA from "./VkrQA.vue";
 import Swal from "sweetalert2";
 
 export default {
   components: {
     VkrSingle,
     VkrVacant,
+    VkrQA,
+
   },
 
   data() {
