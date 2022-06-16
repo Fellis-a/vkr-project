@@ -29,11 +29,11 @@
               <a role="button" class="btn btn-sm btn-block btn-outline-primary round-3" href="{{ url('/') }}">
                 < На главную</a>
             </div>
-            <div class="col mt-2"></div>
+           
 
             <div class="col mt-2">
 
-              <a role="button" class="btn btn-sm btn-block btn-primary round-3" class="text-my-own-color" href="{{ route('vkr-create-vacant')}}">+ Добавить Тему ВКР</a>
+              <a role="button" class="btn btn-sm btn-block btn-outline-primary round-3" class="text-my-own-color" href="{{ route('vkr-vacant-list')}}">Предложенные темы</a>
 
             </div>
 

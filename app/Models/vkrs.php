@@ -21,7 +21,6 @@ class vkrs extends Model
       'mark',
       'essay',
       'tech',
-      'id_teach',
       'specialty_id',
       'user_id',
   ];

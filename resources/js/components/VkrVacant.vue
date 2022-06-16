@@ -7,42 +7,24 @@
           >Информация о преподавателях</b-button
         >
       </div>
-      <div v-for="(items, user) in vkrsGroupedByName" :key="user">
-        <div class="card shadow mb-4">
-          <!-- Card Header - Dropdown -->
-          <div
-            class="
-              card-header
-              py-3
-              d-flex
-              flex-row
-              align-items-center
-              justify-content-between
-            "
-          >
-            <h3 class="m-0 font-weight-bold text-primary">{{ user }}</h3>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <table class="table table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th>№</th>
-                  <th>Тема</th>
-                  <th>Описание</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(i, n) in items" :key="i.id">
-                  <td >{{ n+1 }}</td>
-                  <td >{{ i.title }}</td>
-                  <td class="pl-4">{{ i.description }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <b-table :items="vkrs" :fields="fields" striped responsive="sm">
+        <template #cell(show_details)="row">
+          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+            {{ row.detailsShowing ? "Закрыть" : "Посмотреть" }}
+          </b-button>
+        </template>
+
+        <template #row-details="row">
+          <b-card>
+            <b-row class="mb-2">
+              <b-col sm="3" class="text-sm-left"><b>Описание</b></b-col>
+              <b-col>{{ row.item.description }}</b-col>
+            </b-row>
+
+            <b-button size="sm" @click="row.toggleDetails">Закрыть</b-button>
+          </b-card>
+        </template>
+      </b-table>
     </div>
     <div>
       <b-sidebar
@@ -52,31 +34,28 @@
         shadow
         sidebar-class="border-right border-danger"
         width="100%"
-        
       >
-         <template #default="{ hide }">
-        <div class="px-3 py-2">
-          <table class="table table-bordered table-sm">
-            <thead>
-              <tr>
-                <th>ФИО</th>
-                <th>Профиль</th>
-                <th>Почта</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="u in users" :key="u.id">
-                <td>{{ u.name }}</td>
-                <td><a :href="u.link">Перейти на сайт ИРНИТУ</a></td>
-                <td><a :href="`mailto:${u.email}`">Написать на почту</a></td>
-              </tr>
-            </tbody>
-          </table>
-           <b-button block variant="primary" @click="hide"
-          >Закрыть</b-button
-        >
-        </div>
-            </template>
+        <template #default="{ hide }">
+          <div class="px-3 py-2">
+            <table class="table table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th>ФИО</th>
+                  <th>Профиль</th>
+                  <th>Почта</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="u in users" :key="u.id">
+                  <td>{{ u.name }}</td>
+                  <td><a :href="u.link">Перейти на сайт ИРНИТУ</a></td>
+                  <td><a :href="`mailto:${u.email}`">Написать на почту</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <b-button block variant="primary" @click="hide">Закрыть</b-button>
+          </div>
+        </template>
       </b-sidebar>
     </div>
   </div>
@@ -89,6 +68,12 @@ export default {
     return {
       vkrs: [],
       users: [],
+      fields: [
+        { key: "title", label: "Название темы" },
+
+        { key: "user", label: "Руководитель" },
+        { key: "show_details", label: "Описание" },
+      ],
     };
   },
   mounted() {

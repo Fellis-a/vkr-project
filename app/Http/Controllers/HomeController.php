@@ -109,6 +109,23 @@ class HomeController extends Controller
 
       }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyVacantVkr($id)
+    {
+        $vkrFound = vacant_vkrs::find($id);
+        if ($vkrFound == null) {
+            return redirect('home')->with('error', 'Запись не удалена!');
+        } else {
+            $vkrFound->delete();
+            return redirect('home')->with('success', 'Запись успешно удалена!');
+        }
+    }
+
 
       /**
        * Display the specified resource.
@@ -142,6 +159,18 @@ class HomeController extends Controller
           $specialty = specialty::all();
           return view ('user.vkr.edit', compact('vkr', 'id', 'specialty'));
       }
+        /**
+         * Show the form for editing the specified resource.
+         *
+         * @param  int  $id
+         * @return \Illuminate\Http\Response
+         */
+        public function editVacantVkr($id)
+        {
+            $vkr = vacant_vkrs::with('User')->get()->find($id);
+        
+            return view('user.vkr.editVacantVkr', compact('vkr', 'id'));
+        }
 
       /**
        * Update the specified resource in storage.
@@ -169,6 +198,30 @@ class HomeController extends Controller
 
       }
 
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateVacantVkr(Request $request, $id)
+    {
+        $user = auth()->user();
+        $newVkr = vacant_vkrs::find($id);
+        $newVkr->title = $request->input('title');
+        $newVkr->description = $request->input('description');
+        $newVkr->user_id = $user->id;;
+
+        $newVkr->save();
+        $vacant_vkrs = $newVkr;
+        return view('user.vacantVkrList', compact('vacant_vkrs'))->with('success', 'Тема ВКР успешно отредактирована!'); //переадресация на главную страницу
+
+
+    }
+
+
       /**
        * Update the specified resource in storage.
        *
@@ -195,5 +248,12 @@ class HomeController extends Controller
 
 
         return view('user.vkr.createVacantVkr');
+    }
+
+    public function showVacantVkrList()
+    {
+       
+        $vacant_vkrs = vacant_vkrs::all();
+        return view('user.vacantVkrList', compact('vacant_vkrs'));
     }
 }

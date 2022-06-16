@@ -92,111 +92,123 @@
                     </select>
                   </div>
 
-                  <div
-                    class="col-md-3 col-xl-4 col-xs-1 d-flex align-items-end"
-                  >
-                    <input
-                      v-model="search"
-                      type="text"
-                      placeholder="Введите название, год, технологии"
-                      class="form-control form-control-sm mr-2"
-                    />
-
-                    <button
-                      class="btn btn-success btn-sm"
-                      @click="onClickButton"
+                  <div class="col-md-3 col-xl-4 col-xs-1">
+                    <label for="paginate" class="text-nowrap mr-2 mb-0"
+                      >Поиск</label
                     >
-                      Поиск
-                    </button>
 
-                    <button
-                      @click="clear"
-                      class="btn btn-outline-secondary btn-sm ml-2"
-                    >
-                      Сброс
-                    </button>
+                    <div class="d-flex align-items-end">
+                      <input
+                        v-model="search"
+                        type="text"
+                        placeholder="Введите название, год, технологии"
+                        class="form-control form-control-sm mr-2"
+                      />
+
+                      <button
+                        @click="clear"
+                        class="btn btn-outline-secondary btn-sm ml-2"
+                      >
+                        Сброс
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
+              <div v-show="loading" class="text-center mt-4">
+                <b-spinner label="Loading..."></b-spinner>
+              </div>
+
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover">
-                  <tbody>
-                    <tr>
-                      <th>№</th>
-                      <th>
-                        <a href="#" @click.prevent="change_sort('title')"
-                          >Название</a
-                        >
-                        <span
-                          v-if="
-                            sort_direction == 'desc' && sort_field == 'title'
-                          "
-                          >&uarr;</span
-                        >
-                        <span
-                          v-if="
-                            sort_direction == 'asc' && sort_field == 'title'
-                          "
-                          >&darr;</span
-                        >
-                      </th>
-                      <th>Специальность</th>
-                      <th>
-                        <a href="#" @click.prevent="change_sort('year')">Год</a>
-                        <span
-                          v-if="
-                            sort_direction == 'desc' && sort_field == 'year'
-                          "
-                          >&uarr;</span
-                        >
-                        <span
-                          v-if="sort_direction == 'asc' && sort_field == 'year'"
-                          >&darr;</span
-                        >
-                      </th>
-                      <th>
-                        <a href="#" @click.prevent="change_sort('mark')"
-                          >Оценка</a
-                        >
-                        <span
-                          v-if="
-                            sort_direction == 'desc' && sort_field == 'mark'
-                          "
-                          >&uarr;</span
-                        >
-                        <span
-                          v-if="sort_direction == 'asc' && sort_field == 'mark'"
-                          >&darr;</span
-                        >
-                      </th>
-                      <th>Преподаватель</th>
-                      <th>Теги</th>
-                      <th>Реферат</th>
-                    </tr>
+                  <span v-show="!loading">
+                    <tbody>
+                      <tr>
+                        <th>№</th>
+                        <th>
+                          <a href="#" @click.prevent="change_sort('title')"
+                            >Название</a
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'desc' && sort_field == 'title'
+                            "
+                            >&uarr;</span
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'asc' && sort_field == 'title'
+                            "
+                            >&darr;</span
+                          >
+                        </th>
+                        <th>Специальность</th>
+                        <th>
+                          <a href="#" @click.prevent="change_sort('year')"
+                            >Год</a
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'desc' && sort_field == 'year'
+                            "
+                            >&uarr;</span
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'asc' && sort_field == 'year'
+                            "
+                            >&darr;</span
+                          >
+                        </th>
+                        <th>
+                          <a href="#" @click.prevent="change_sort('mark')"
+                            >Оценка</a
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'desc' && sort_field == 'mark'
+                            "
+                            >&uarr;</span
+                          >
+                          <span
+                            v-if="
+                              sort_direction == 'asc' && sort_field == 'mark'
+                            "
+                            >&darr;</span
+                          >
+                        </th>
+                        <th>Преподаватель</th>
+                        <th>Теги</th>
+                        <th>Реферат</th>
+                      </tr>
 
-                    <tr v-for="(vkr, i) in vkrs.data" :key="vkr.id">
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ vkr.title }}</td>
-                      <td>{{ vkr.specialty }}</td>
-                      <td>{{ vkr.year }}</td>
-                      <td>{{ vkr.mark }}</td>
-                      <td>{{ vkr.user }}</td>
-                      <td>{{ vkr.tech }}</td>
-                      <td>
-                        <b-button :disabled="vkr.essay === ''"
-                          data-id="vkr.id"
-                          v-b-modal.modal-1
-                          squared variant="dark"
-                           size="sm"
-                          @click="currentVkr = vkr"
-                        >
-                          Текст реферата
-                        </b-button>
+                      <tr v-for="(vkr, i) in vkrs.data" :key="vkr.id">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ vkr.title }}</td>
+                        <td>{{ vkr.specialty }}</td>
+                        <td>{{ vkr.year }}</td>
+                        <td>{{ vkr.mark }}</td>
+                        <td>{{ vkr.user }}</td>
+                        <td>{{ vkr.tech }}</td>
+                        <td>
+                          <div v-if="vkr.essay === ''">Реферата нет</div>
 
-                      </td>
-                    </tr>
-                  </tbody>
+                          <b-button
+                            v-else
+                            data-id="vkr.id"
+                            v-b-modal.modal-1
+                            squared
+                            variant="dark"
+                            size="sm"
+                            @click="currentVkr = vkr"
+                          >
+                            Текст реферата
+                          </b-button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </span>
                 </table>
               </div>
 
@@ -211,28 +223,23 @@
             </div>
           </div>
         </b-tab>
-        <b-tab title="Свободные темы">
+        <b-tab title="Предлагаемые темы">
           <vkr-vacant />
         </b-tab>
-        <b-tab title="Дорожная карта"
-          ><p>I'm the tab with the very, very long title</p></b-tab
-        >
-        <b-tab title="Ответы на вопросы"
-          >
+        <b-tab title="Дорожная карта"><vkrs-road /></b-tab>
+        <b-tab title="Ответы на вопросы о ВКР">
           <vkr-q-a />
-         
+        </b-tab>
+        <b-tab title="Полезные ссылки">
+          <vkrs-links />
         </b-tab>
       </b-tabs>
     </div>
 
     <div>
-      <b-modal id="modal-1" title="Содержание реферата" size="xl">
+      <b-modal id="modal-1" title="Реферат" size="xl">
         <p class="my-4" v-if="currentVkr">
-          123{{ currentVkr.essay }}{{ currentVkr.essay }}{{ currentVkr.essay
-          }}{{ currentVkr.essay }}{{ currentVkr.essay }}{{ currentVkr.essay
-          }}{{ currentVkr.essay }}{{ currentVkr.essay }}{{ currentVkr.essay
-          }}{{ currentVkr.essay }}{{ currentVkr.essay }}{{ currentVkr.essay
-          }}{{ currentVkr.essay }}
+          {{ currentVkr.essay }}
         </p>
       </b-modal>
     </div>
@@ -271,6 +278,8 @@
 import VkrSingle from "./VkrSingle.vue";
 import VkrVacant from "./VkrVacant.vue";
 import VkrQA from "./VkrQA.vue";
+import VkrsRoad from "./VkrsRoad.vue";
+import VkrsLinks from "./VkrsLinks.vue";
 import Swal from "sweetalert2";
 
 export default {
@@ -278,7 +287,8 @@ export default {
     VkrSingle,
     VkrVacant,
     VkrQA,
-
+    VkrsRoad,
+    VkrsLinks,
   },
 
   data() {
@@ -298,6 +308,7 @@ export default {
       sort_direction: "desc",
       sort_field: "year",
       currentVkr: null,
+      loading: false,
       scTimer: 0,
       scY: 0,
       vkr: {
@@ -353,30 +364,40 @@ export default {
   },
   methods: {
     getVkrs(page = 1) {
-      axios
-        .get(
-          "/api/vkrs?page=" +
-            page +
-            "&paginate=" +
-            this.paginate +
-            "&q=" +
-            this.search +
-            "&selectedSpecialty=" +
-            this.selectedSpecialty +
-            "&selectedUser=" +
-            this.selectedUser +
-            "&selectedYear=" +
-            this.selectedYear +
-            "&selectedMark=" +
-            this.selectedMark +
-            "&sort_direction=" +
-            this.sort_direction +
-                "&sort_field=" +
-                this.sort_field 
-        )
-        .then((response) => {
-          this.vkrs = response.data;
-        });
+      if (this.loading) return;
+      this.loading = true;
+      //USE SET TIME OUT TO SET DRAMATIC DELAY - NOT NEEDED
+      setTimeout(() => {
+        axios
+          .get(
+            "/api/vkrs?page=" +
+              page +
+              "&paginate=" +
+              this.paginate +
+              "&q=" +
+              this.search +
+              "&selectedSpecialty=" +
+              this.selectedSpecialty +
+              "&selectedUser=" +
+              this.selectedUser +
+              "&selectedYear=" +
+              this.selectedYear +
+              "&selectedMark=" +
+              this.selectedMark +
+              "&sort_direction=" +
+              this.sort_direction +
+              "&sort_field=" +
+              this.sort_field
+          )
+          .then((response) => {
+            this.loading = false;
+            this.vkrs = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.loading = false;
+          });
+      }, 5000);
     },
     clear: function () {
       this.selectedSpecialty = "";
@@ -386,14 +407,14 @@ export default {
       this.search = "";
     },
 
-    change_sort(field){
-            if(this.sort_field == field){
-                this.sort_direction = this.sort_direction == "asc" ? "desc" : "asc";
-            }else{
-                this.sort_field = field;
-            }
-            this.getVkrs();
-        },
+    change_sort(field) {
+      if (this.sort_field == field) {
+        this.sort_direction = this.sort_direction == "asc" ? "desc" : "asc";
+      } else {
+        this.sort_field = field;
+      }
+      this.getVkrs();
+    },
 
     onClickButton() {
       this.getVkrs();
