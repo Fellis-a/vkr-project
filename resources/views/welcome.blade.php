@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <title>Архив ВКР | ИИТиАД Ирниту - Главная страница</title>
+    <title>Цифровой помощник дипломника  | ИИТиАД Ирниту - Главная страница</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
     <!-- Fonts -->
@@ -26,7 +26,7 @@
             <div class="container">
 
                 <a class="navbar-brand mr-3" href="{{ url('/') }}"><img src="logo.png" class="mr-1" width="30" height="30"></img>
-                    {{ __('Архив ВКР | ИИТиАД Ирниту') }}
+                    {{ __('Цифровой помощник дипломника | ИИТиАД Ирниту') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -50,7 +50,7 @@
                             <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Войти</a>
 
                             @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Зарегистрироваться</a>
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline"></a>
                             @endif
                             @endauth
                         </div>

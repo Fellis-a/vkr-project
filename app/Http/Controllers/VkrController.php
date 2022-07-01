@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UsersVacantVkrs;
 use App\Http\Resources\VkrResource;
+use App\Http\Resources\VkrVacantResource;
+use App\Http\Resources\Years;
+use App\Http\Resources\Marks;
 use Illuminate\Http\Request;
 use App\Models\vkrs;
 use App\Models\specialty;
 use App\Models\User;
+use App\Models\vacant_vkrs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -24,8 +29,18 @@ class VkrController extends Controller
     $search_term = request('q', '');
     $selectedSpecialty = request('selectedSpecialty');
     $selectedUser = request('selectedUser');
-    $selectedYear = request('selectedUser');
-    
+    $selectedYear = request('selectedYear');
+    $selectedMark = request('selectedMark');
+    $sort_direction = request('sort_direction', 'desc');
+
+    if (!in_array($sort_direction, ['asc', 'desc'])) {
+      $sort_direction = 'desc';
+    }
+    $sort_field = request('sort_field','year');
+    if (!in_array($sort_field, ['title', 'year', 'mark'])) {
+      $sort_field = 'year';
+    }
+
 
     $vkrs = vkrs::with(['specialty', 'User'])
       ->when($selectedSpecialty, function ($query) use ($selectedSpecialty) {
@@ -34,8 +49,15 @@ class VkrController extends Controller
       ->when($selectedUser, function ($query) use ($selectedUser) {
         $query->where('user_id', $selectedUser);
       })
+      ->when($selectedYear, function ($query) use ($selectedYear) {
+        $query->where('year', $selectedYear);
+      })
+      ->when($selectedMark, function ($query) use ($selectedMark) {
+        $query->where('mark', $selectedMark);
+      })
    
       ->search(trim($search_term))
+      ->orderBy($sort_field, $sort_direction)
       ->paginate($paginate);
 
     return VkrResource::collection($vkrs);
@@ -43,128 +65,45 @@ class VkrController extends Controller
 
   public function filterYear()
   {
-    $years = vkrs::select('year')->distinct()->get();
+    $years = vkrs::select('year')->distinct()->orderBy('year')->get();
+    return Years::collection($years);
   }
-
+  public function filterMark()
+  {
+    $marks = vkrs::select('mark')->distinct()->orderBy('mark')->get();
+    return Marks::collection($marks);
+  }
+  
 
   /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
    */
-  public function vkrsList(Request $request)
+  public function vacant()
   {
 
-    // $vkrs = vkrs::with('specialty')->paginate(15);
-    // $user = vkrs::with('user')->paginate(15);
+    $selectedVacantUser = request('selectedVacantUser');
 
-    $data['specialty'] = specialty::orderBy('id', 'desc')->get();
 
-    $post_query = vkrs::with('specialty');
+    $vkrs = vacant_vkrs::all();
+  
 
-    // if($request->specialty){
-    // $vkrs->whereHas('specialty',function($q) use ($request){
-    //  $q->where('specialty',$request->specialty);
-    // });
-    // }
-
-    if ($request->keyword) {
-      $post_query->where('title', 'LIKE', '%' . $request->keyword . '%');
-    }
-
-    // $data['vkrs']=$post_query;
-    return response()->json($post_query->toArray());
+    return VkrVacantResource::collection($vkrs);
   }
-
-  public function find(Request $request)
+  public function vacantUsers()
   {
-    $request->validate([
-      'query' => 'required|min:2'
-    ]);
 
-    $search_text = $request->input('query');
-    $vkrs = DB::table('vkrs')
-      ->where('title', 'LIKE', '%' . $search_text . '%')
-      //   ->orWhere('SurfaceArea','<', 10)
-      //   ->orWhere('LocalName','like','%'.$search_text.'%')
-      ->paginate(15);
-    return view('search', ['vkrs' => $vkrs]);
+    $search_term = request('q', '');
+    $selectedVacantUser = request('selectedVacantUser');
+
+
+    $users = User::all();
+
+
+    return UsersVacantVkrs::collection($users);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function search(Request $request)
-  {
-    $vkrs = vkrs::with('specialty')->paginate(15);
-    $user = vkrs::with('user')->paginate(15);
-    $specialty = specialty::with('vkrs')->get();
-    return view('search', compact('vkrs', 'user', 'specialty'));
-  }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    $request->validate([
-      'title' => 'required',
-      'year' => 'required',
-      'mark' => 'required'
-    ]);
 
-    vkrs::create($request->all());
-
-    return redirect()->route('vkrs.index')
-      ->with('success', 'Post created successfully.');
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function show($id)
-  {
-    $vkrs = vkrs::with('specialty', 'User')->get()->find($id);
-    return view('user.show', compact('vkrs'));
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function edit($id)
-  {
-    $vkrs = vkrs::with('specialty', 'User')->get()->find($id);
-    return view('user.vkr.edit', compact('vkrs'));
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, $id)
-  {
-    //
-  }
-
-  public function sort()
-  {
-    $vkrs = vkrs::all();
-    $years = $vkrs->sortBy('year')->pluck('year')->unique();
-    //$year = $vkrs->sortBy('year')->pluck('year')->unique();
-    return view('welcome', compact('years'));
-  }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VkrController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\UserController;
+use App\Http\Resources\UsersVacantVkrs;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/vkrs', [VkrController::class, 'index']);
+Route::get('/titles', [VkrController::class, 'vacant']);
 Route::get('/specialties',[SpecialtyController::class,'index']);
 Route::get('/users',[UserController::class,'index']);
-Route::get('/years', [VkrController::class, 'index']);
+Route::get('/years', [VkrController::class, 'filterYear']);
+Route::get('/marks', [VkrController::class, 'filterMark']);
+//Route::get('/vacantvkr', [VkrController::class, 'vacant']);

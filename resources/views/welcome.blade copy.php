@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Архив ВКР | ИИТиАД Ирниту - Главная страница</title>
+        <title>Цифровой помощник дипломника | ИИТиАД Ирниту - Главная страница</title>
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
         <!-- Fonts -->

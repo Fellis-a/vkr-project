@@ -64,6 +64,19 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row mt-4">
+                             <div class="col offset-md-4">
+                            <p>или</p>
+                             </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Вход через Кампус') }}
+                                </button>
+
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
