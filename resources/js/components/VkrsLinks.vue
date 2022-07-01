@@ -46,6 +46,19 @@
               >Перейти</a
             >
           </p>
+           <div
+            class="text-xs font-weight-bold  text-uppercase mb-1"
+          >
+            Шаблоны
+          </div>
+          <p>
+            Положение о проведении ГИА
+             <a
+              href="https://www.istu.edu/local/modules/doc/download/40875"
+              target="_blank"
+              >Перейти</a
+            >
+          </p>
         </div>
       </div>
       <div class="card shadow mb-4">
@@ -66,7 +79,15 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-          <p>https://www.istu.edu/deyatelnost/obrazovanie/standart/default</p>
+             <p>
+            Образовательные стандарты по всем направлениям подготовки института ИТиАД
+             <a
+              href="https://www.istu.edu/deyatelnost/obrazovanie/standart/default"
+              target="_blank"
+              >Перейти</a
+            >
+          </p>
+          <p></p>
         </div>
       </div>
     </div>
